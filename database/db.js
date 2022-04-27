@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'easydrive',
-    database: 'easydrive',
+    database: 'tfg',
     port: '8000'
 
 });
