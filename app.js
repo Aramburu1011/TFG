@@ -42,6 +42,21 @@ app.get('/sign-up.ejs', (req, res)=> {
 	});			
 });
 
+app.get('/payments.ejs', (req, res)=> {
+	res.render('payments',{		
+	});			
+});
+
+app.get('/profile.ejs', (req, res)=> {
+	res.render('profile',{		
+	});			
+});
+
+app.get('/contact.ejs', (req, res)=> {
+	res.render('contact',{		
+	});			
+});
+
 app.listen(8080, (req, res)=>{
     console.log('SERVER RUNNING IN http://localhost:8080');
 });
