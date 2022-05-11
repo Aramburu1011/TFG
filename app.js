@@ -1,6 +1,6 @@
 //1- LLamamos a las librerias
 const express = require('express');
-const session = require('express-session');
+// const session = require('express-session');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -40,7 +40,7 @@ app.use(session({
 
 // 8 - Invocamos a la conexion de la DB
 const connection = require('./database/db');
-const { session } = require('passport/lib');
+// const { session } = require('passport/lib');
 
 //9 - Rutas
 app.get('/', (req, res)=> {
