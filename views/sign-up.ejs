@@ -260,43 +260,7 @@
       </div>
     </section>
     <!--====== HEADER PART ENDS ======--><!--====== PAGE BANNER PART START ======-->
-    <section class="page-banner">
-      <div class="container">
-        <div class="page-banner-content text-center">
-          <h4 class="title">EasyDrive</h4>
-          <p>Search from over 2000+Active Ads in 29+Categories for Free</p>
-        </div>
-      </div>
-    </section>
-    <!--====== PAGE BANNER PART ENDS ======--><!--====== GET SEARCH FORM PART START ======-->
-    <section class="get-search-area">
-      <div class="container">
-        <form action="#">
-          <div class="get-search-form search-form-bg d-flex flex-wrap">
-            <div class="single-form">
-              <input type="text" placeholder="Looking For Classified -" />
-            </div>
-            <div class="single-form">
-              <select>
-                <option value="0">Select Location -</option>
-                <option value="1">Dhaka</option>
-                <option value="2">Chittagong</option>
-                <option value="3">Khulna</option>
-                <option value="4">Rajshahi</option>
-                <option value="5">Dinajpur</option>
-                <option value="6">Rangpur</option>
-                <option value="7">Sylhet</option>
-                <option value="8">Sylhet</option>
-              </select>
-            </div>
-            <div class="single-form">
-              <input type="text" placeholder="Enter Keyword Hare -" /><button>
-                <i class="fal fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+    <section class="page-banner-sign-up">
     </section>
     <!--====== GET SEARCH FORM PART ENDS ======--><!--====== SING IN PART START ======-->
     <section class="sing-in-area pt-70">
@@ -316,18 +280,18 @@
                 sit amet dolor vel euismod.
               </p>
               <div class="sing-in-form-wrapper">
-                <form action="#">
+                <form action="/sign-up" method="POST">
                   <div class="single-form mt-45">
                     <label>User name</label
-                    ><input type="email" placeholder="Your Name :" />
+                    ><input type="text" name="name" placeholder="Your Name :" />
                   </div>
                   <div class="single-form mt-45">
                     <label>Email</label
-                    ><input type="email" placeholder="Email :" />
+                    ><input type="email" name="email" placeholder="Email :" />
                   </div>
                   <div class="single-form mt-45">
                     <label>Password</label
-                    ><input type="password" placeholder="********" />
+                    ><input type="password" name="password" placeholder="********" />
                   </div>
                   <div class="single-form mt-15">
                     <div class="row">

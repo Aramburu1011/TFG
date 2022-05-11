@@ -1,4 +1,8 @@
+//1- LLamamos a las librerias
 const express = require('express');
+// const session = require('express-session');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 //2 - Para poder capturar los datos del formulario (sin urlencoded nos devuelve "undefined")
@@ -23,10 +27,22 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+app.use(express.urlencoded({ extended: true}));
+app.use(cookieParser('secreto'));
+
+app.use(session({
+	secret: 'secreto',
+	resave: true,
+	saveUninitialized: true
+}));
+
+
 
 // 8 - Invocamos a la conexion de la DB
 const connection = require('./database/db');
+// const { session } = require('passport/lib');
 
+//9 - Rutas
 app.get('/', (req, res)=> {
 		res.render('index',{		
 		});			
@@ -37,8 +53,27 @@ app.get('/sign-in.ejs', (req, res)=> {
 	});			
 });
 
+
+
 app.get('/sign-up.ejs', (req, res)=> {
 	res.render('sign-up',{		
+	});			
+});
+
+
+
+app.get('/payments.ejs', (req, res)=> {
+	res.render('payments',{		
+	});			
+});
+
+app.get('/profile.ejs', (req, res)=> {
+	res.render('profile',{		
+	});			
+});
+
+app.get('/contact.ejs', (req, res)=> {
+	res.render('contact',{		
 	});			
 });
 
