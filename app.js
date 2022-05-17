@@ -28,6 +28,9 @@ app.use(session({
 // 8 - Invocamos a la conexion de la DB
 const connection = require('./database/db');
 const req = require('express/lib/request');
+const { query } = require('express');
+const bcryptjs = require('bcryptjs');
+const { get } = require('express/lib/response');
 // const { session } = require('passport/lib');
 
 //9 - Rutas
@@ -41,6 +44,63 @@ app.get('/sign-in.ejs', (req, res)=> {
 	});			
 });
 
+app.post('/sign-in', async (req, res)=>{
+	const email = req.body.email;
+	const contraseña = req.body.password;
+	let passwordHassh = await bcryptjs.hash(contraseña, 8);
+	if(email && contraseña){
+		connection.query('SELECT * FROM tfg.usuarios WHERE email = ?', [email], async (error, results)=>{
+			if(results.length == 0 || !(await bcryptjs.compare(contraseña, results[0].contraseña))){
+				res.render('sign-up',{
+					alert:true,
+					alertTitle: "Error",
+					alertMessage: "Email y/o contraseña incorrectos",
+					alertIcon: "error",
+					showConfirmButton: true,
+					time:3000,
+					ruta:'sign-in.ejs'
+				});
+			}else{
+				req.session.loggedin = true;
+				req.session.name = results[0].name
+				res.render('sign-up',{
+					alert:true,
+					alertTitle: "Bienvenid@",
+					alertMessage: "Email y coontraseña correctos",
+					alertIcon: "success",
+					showConfirmButton:false,
+					time:3000,
+					ruta:''
+				});
+			}
+		})
+			}else{
+				res.render('sign-up',{
+					alert:true,
+					alertTitle: "Advertencia",
+					alertMessage: "¡Por favor ingrese un usuario y/o contraseña",
+					alertIcon: "warning",
+					showConfirmButton:true,
+					time:false,
+					ruta:'sign-in.ejs'
+				});
+			}
+})
+
+app.get('/', (req, res)=>{
+	if(req.session.loggedin){
+		res.render('index',{
+			login: true,
+			name: req.session.name
+		});
+	}else{
+		res.render('index',{
+			login: false,
+			name: 'Debe iniciar sesión'
+		});
+	}
+})
+
 
 
 app.get('/sign-up.ejs', (req, res)=> {
@@ -49,21 +109,30 @@ app.get('/sign-up.ejs', (req, res)=> {
 });
 
 app.post('/sign-up', async (req, res)=> {
-	const name = req.body.name;
+	
+	const nombre = req.body.name;
 	const email = req.body.email;
-	const password = req.body.password;
+	const contraseña = req.body.password;
 	const rol = req.body.rol;
-	let passwordHassh = await bcrypt.hash(password, 8);
-	connection.query('INSERT INTO tfg.usuarios (`id`, `rol`, `nombre`, `contraseña`, `email`) VALUES', {name: name, email: email, rol: rol, password: passwordHassh }, async(error, results)=>{
+	let passwordHassh = await bcrypt.hash(contraseña, 8);
+	connection.query('INSERT INTO tfg.usuarios SET ?', {rol: rol, nombre: nombre, email: email, contraseña: passwordHassh}, async(error, results)=>{
 		if(error){
 			console.log(error);
 		}else{
-			console.log('Se agregó correctamente')
+			console.log('Nuevo cliente agregado correctamente')
+			res.render('sign-up',{
+				alert: true,
+				alertTitle: "Registro",
+				alertMessage:"¡Todo correcto!",
+				alertIcon:'success',
+				showConfirmButton:false,
+				time:3000,
+				ruta:''
+
+			});	
 		}
 	})
 });
-
-
 
 app.get('/payments.ejs', (req, res)=> {
 	res.render('payments',{		

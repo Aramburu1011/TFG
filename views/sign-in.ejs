@@ -274,15 +274,15 @@
                 sit amet dolor vel euismod.
               </p>
               <div class="sing-in-form-wrapper">
-                <form action="#">
+                <form action="/sign-in" method="POST">
                   <div class="single-form mt-45">
                     <label>Email</label
-                    ><input type="email" placeholder="Email :" />
+                    ><input type="email" name="email" placeholder="Email :" />
                   </div>
                   <!-- single-form -->
                   <div class="single-form mt-45">
                     <label>Password</label
-                    ><input type="password" placeholder="********" />
+                    ><input type="password" name="password" placeholder="********" />
                   </div>
                   <!-- single-form -->
                   <div
@@ -605,5 +605,20 @@
     <!--====== Google Map js ======-->
     <script src="http://www.google.cn/maps/api/js?key=AIzaSyBQ5y0EF8dE6qwc03FcbXHJfXr4vEa7z54"></script>
     <script src="resources/js/map-script.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <% if(typeof alert != "undefined"){ %>
+      <script>
+        Swal.fire({
+          title: '<%= alertTitle %>',
+          text: '<%= alertMessage %>',
+          icon: '<%= alertIcon %>',
+          showConfirmButton: <%= showConfirmButton %>,
+          timer: <%= time %>
+        }).then(()=>{
+            window.location='/<%= ruta %>'
+        })
+      </script>
+      <% } %>
   </body>
 </html>
