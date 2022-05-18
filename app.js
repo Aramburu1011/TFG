@@ -2,7 +2,7 @@
 const express = require('express');
 // const session = require('express-session');
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const app = express();
 
 //2 - Para poder capturar los datos del formulario (sin urlencoded nos devuelve "undefined")
@@ -28,7 +28,7 @@ app.use(session({
 }));
 
 app.use(express.urlencoded({ extended: true}));
-app.use(cookieParser('secreto'));
+// app.use(cookieParser('secreto'));
 
 app.use(session({
 	secret: 'secreto',
