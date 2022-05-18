@@ -18,7 +18,7 @@ app.set('view engine','ejs');
 const bcrypt = require('bcryptjs');
 
 //7- variables de session
-const session = require('express-session');
+var session = require('express-session');
 app.use(session({
 	secret:'secret',
 	resave: true,
@@ -34,39 +34,38 @@ const { get } = require('express/lib/response');
 // const { session } = require('passport/lib');
 
 //9 - Rutas
-app.get('/', (req, res)=> {
-		res.render('index',{		
-		});			
+
+app.get('/signin.ejs', (req, res)=> {
+	res.render('signin');
 });
 
-app.get('/sign-in.ejs', (req, res)=> {
-	res.render('sign-in',{		
-	});			
+app.get('/sign-up.ejs', (req, res)=> {
+	res.render('sign-up');		
 });
 
-app.post('/sign-in', async (req, res)=>{
+app.post('/signin', async (req, res)=>{
 	const email = req.body.email;
 	const contraseña = req.body.password;
 	let passwordHassh = await bcryptjs.hash(contraseña, 8);
 	if(email && contraseña){
 		connection.query('SELECT * FROM tfg.usuarios WHERE email = ?', [email], async (error, results)=>{
 			if(results.length == 0 || !(await bcryptjs.compare(contraseña, results[0].contraseña))){
-				res.render('sign-up',{
+				res.render('signin',{
 					alert:true,
 					alertTitle: "Error",
 					alertMessage: "Email y/o contraseña incorrectos",
 					alertIcon: "error",
 					showConfirmButton: true,
 					time:3000,
-					ruta:'sign-in.ejs'
+					ruta:'signin.ejs'
 				});
 			}else{
 				req.session.loggedin = true;
 				req.session.name = results[0].name
-				res.render('sign-up',{
+				res.render('signin',{
 					alert:true,
 					alertTitle: "Bienvenid@",
-					alertMessage: "Email y coontraseña correctos",
+					alertMessage: "Email y contraseña correctos",
 					alertIcon: "success",
 					showConfirmButton:false,
 					time:3000,
@@ -82,31 +81,29 @@ app.post('/sign-in', async (req, res)=>{
 					alertIcon: "warning",
 					showConfirmButton:true,
 					time:false,
-					ruta:'sign-in.ejs'
+					ruta:'signin.ejs'
 				});
 			}
 })
 
-app.get('/', (req, res)=>{
-	if(req.session.loggedin){
+app.get('/', (req, res)=> {
+	console.log(req.session)
+	if (req.session.loggedin) {
 		res.render('index',{
 			login: true,
-			name: req.session.name
-		});
-	}else{
+			name: req.session.nombre
+		});		
+	} else {
 		res.render('index',{
-			login: false,
-			name: 'Debe iniciar sesión'
-		});
+			login:false,
+			name:'Debe iniciar sesión',			
+		});				
 	}
-})
-
-
-
-app.get('/sign-up.ejs', (req, res)=> {
-	res.render('sign-up',{		
-	});			
+	res.end();
 });
+
+
+
 
 app.post('/sign-up', async (req, res)=> {
 	

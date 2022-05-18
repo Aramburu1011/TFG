@@ -76,10 +76,15 @@
                   </li>
                 </ul>
                 <ul class="header-login">
+                  <% if (login) { %>
+                    <div><%= name %></div>
+                    <a href="loguot">Logout</a>
+                    <%} else { %>
                   <li>
-                    <a href="sign-in.ejs"
+                    <a href="signin.ejs"
                       ><i class="fal fa-sign-in-alt"></i>Sign In</a
                     >
+                    <% } %>
                   </li>
                 </ul>
               </div>
